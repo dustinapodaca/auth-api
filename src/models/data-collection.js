@@ -5,7 +5,6 @@
 // being the same and requiring their own schema. That's not very DRY!
 
 class DataCollection {
-
   constructor(model) {
     this.model = model;
   }
@@ -23,15 +22,19 @@ class DataCollection {
     return this.model.create(record);
   }
 
-  update(id, data) {
-    return this.model.findOne({ where: { id } })
-      .then(record => record.update(data));
+  // update(id, data) {
+  //   return this.model.findOne({ where: { id } })
+  //     .then(record => record.update(data));
+  // }
+
+  async update(id, data) {
+    let record = await this.model.findOne({ where: { id } });
+    return record.update(data);
   }
 
   delete(id) {
     return this.model.destroy({ where: { id }});
   }
-
 }
 
 module.exports = DataCollection;
